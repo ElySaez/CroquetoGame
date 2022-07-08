@@ -10,7 +10,7 @@ void function () {
     const FPS = 100;
     const WIDTH = 600;
     const HEIGHT = 540;
-    const MOVE_SPEED = 20;
+    const MOVE_SPEED = 10;
 
     onload = function () {
         canvas = document.getElementById('canvas');
