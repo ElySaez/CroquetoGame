@@ -4,6 +4,45 @@
 
 void function () {
 
+    let anchoF = 50;
+    let altoF = 50;
+    let pasto = '#5EC275';
+    let agua = '#77E9EA';
+    let tierra = '#E1CB85';
+    let escenario = [
+        [0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+        [0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+        [0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+        [0, 2, 2, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+        [0, 2, 2, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+        [0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    ]
+    /*  console.log(escenario.reverse()); */    //Este método da vuelta el escenario
+    function dibujaEscenario() {
+        let color;
+        for (y = 0; y < 11; y++) {
+            for (x = 0; x < 12; x++) {
+                if (escenario[y][x] == 0) {
+                    color = pasto;
+                }
+                if (escenario[y][x] == 1) {
+                    color = agua;
+                }
+                if (escenario[y][x] == 2) {
+                    color = tierra;
+                }
+
+                ctx.fillStyle = color;
+                ctx.fillRect(x * anchoF, y * altoF, anchoF, altoF);
+
+            }
+        }
+    }
     let canvas;
     let ctx;
 
@@ -26,7 +65,7 @@ void function () {
         this.mov = true;
 
         this.dibuja = function () {
-            ctx.fillStyle = 'cyan';
+            ctx.fillStyle = '#858175';
             ctx.fillRect(this.x, this.y, 30, 30);
         }
 
@@ -73,10 +112,12 @@ void function () {
         this.right = false;
 
         this.movimiento = function () {
-            if (this.up) { this.y -= MOVE_SPEED; }
-            if (this.down) { this.y += MOVE_SPEED; }
-            if (this.left) { this.x -= MOVE_SPEED; }
-            if (this.right) { this.x += MOVE_SPEED; }            
+            
+            if (this.up) { this.y -= MOVE_SPEED;}                      
+            if (this.down) { this.y += MOVE_SPEED;}        
+            if (this.left) { this.x -= MOVE_SPEED; }                       
+            if (this.right) { this.x += MOVE_SPEED; }
+            
             
             if (this.x - this.r < 0.0) {
                 this.x = this.r;
@@ -97,6 +138,14 @@ void function () {
             img.src = 'img/gatito.png';
             ctx.drawImage(img, this.x - 50, this.y - 45);
         };
+
+      /*  this.margen = function (x, y) {
+            let colision = false;
+            if (escenario[y][x] == 0) {
+                colision = true;
+            }
+            return (colision);
+        } */
     }
 
     let per1 = new Enemigo(60, 150);
@@ -127,7 +176,8 @@ void function () {
     function principal() {
         canvas.width = WIDTH;
         canvas.height = HEIGHT;
-        
+        dibujaEscenario();
+
         per1.dibuja();
         per2.dibuja();
         per3.dibuja();
@@ -142,7 +192,8 @@ void function () {
         per4.mueveAbajo(1);
         per5.mueveLado(3);
     }
-
+    
+    
 }();
 
 

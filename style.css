@@ -1,7 +1,6 @@
 #canvas {
     border: 2px solid #000000;
     background-image: url(img/fondo.png);
-    background-color: rgb(8, 29, 41);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
