@@ -1,199 +1,230 @@
 /* Prototipo de mini juego se puede interactuar con él mediante
- las teclas w,s,a,d  por el momento sólo hay desplazamiento 
- faltan colisiones y llegada de meta*/
+ las teclas arriba, abajo, derecha e izquierda, se incorporaron margenes
+ para que el personaje principal sólo pueda transitar por el camino, se simplificó
+ diseño por mientras se deciden las mecánicas del juego, se añadió música y un tesoro para recolectar y una meta*/
+
+
 
 void function () {
 
-    let anchoF = 50;
-    let altoF = 50;
-    let pasto = '#5EC275';
-    let agua = '#77E9EA';
-    let tierra = '#E1CB85';
-    let escenario = [
-        [0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-        [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-        [0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-        [0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-        [0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-        [0, 2, 2, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-        [0, 2, 2, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-        [0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-    ]
-    /*  console.log(escenario.reverse()); */    //Este método da vuelta el escenario
-    function dibujaEscenario() {
-        let color;
-        for (y = 0; y < 11; y++) {
-            for (x = 0; x < 12; x++) {
-                if (escenario[y][x] == 0) {
-                    color = pasto;
-                }
-                if (escenario[y][x] == 1) {
-                    color = agua;
-                }
-                if (escenario[y][x] == 2) {
-                    color = tierra;
-                }
-
-                ctx.fillStyle = color;
-                ctx.fillRect(x * anchoF, y * altoF, anchoF, altoF);
-
-            }
-        }
-    }
     let canvas;
     let ctx;
+    let rhythm;
+    let widthF = 50;
+    let heightF = 50;
+    let lawn = '#5EC275';
+    let water = '#77E9EA';
+    let way = '#E1CB85';
+    let finish = '#534007';
+    let myPrecious = '#0D2AFF';
+    let scene = [
+        [0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 1, 0, 1, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
+        [0, 2, 2, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 2, 2, 0, 0, 2, 2, 1, 0, 0, 0, 1, 1, 1, 1],
+        [0, 2, 2, 0, 0, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1]
+    ]
 
-    const FPS = 100;
-    const WIDTH = 600;
-    const HEIGHT = 540;
-    const MOVE_SPEED = 10;
+    const FPS = 50;
 
     onload = function () {
         canvas = document.getElementById('canvas');
         ctx = canvas.getContext('2d');
         setInterval(function () {
-            principal();
+            main();
         }, 1000 / FPS);
+
+        rhythm = new Howl({
+            src: ['sound/fondo.mp3'],
+            loop: true,
+            volume:0.5
+        }
+        );
+        rhythm.play();
     }
 
-    function Enemigo(x, y) {
+    let p1 = new Enemy(60, 150);
+    let p2 = new Enemy(50, 100);
+    let p3 = new Enemy(70, 270);
+    let p4 = new Enemy(30, 10);
+    let p5 = new Enemy(500, 310);
+    let hero = new player();
+
+    function main() {
+        deleteCanvas();
+        paintScene();
+        hero.draw();
+        p1.draw();
+        p2.draw();
+        p3.draw();
+        p4.draw();
+        p5.draw();
+        p1.moveSide(1);
+        p2.moveSide(2);
+        p3.moveSide(3);
+        p4.moveDown(1);
+        p5.moveSide(3);
+    }
+
+    function paintScene() {
+        let color;
+        for (y = 0; y < 11; y++) {
+            for (x = 0; x < 15; x++) {
+                if (scene[y][x] == 0) {
+                    color = lawn;
+                }
+                if (scene[y][x] == 1) {
+                    color = water;
+                }
+                if (scene[y][x] == 2) {
+                    color = way;
+                }
+                if (scene[y][x] == 3) {
+                    color = finish;
+                }
+                if (scene[y][x] == 4) {
+                    color = myPrecious;
+                }
+                ctx.fillStyle = color;
+                ctx.fillRect(x * widthF, y * heightF, widthF, heightF);
+            }
+        }
+    }
+
+    onkeydown = function (key) {
+        if (key.keyCode == 38) {
+            hero.up();
+        }
+
+        if (key.keyCode == 40) {
+            hero.down();
+        }
+
+        if (key.keyCode == 37) {
+            hero.left();
+        }
+
+        if (key.keyCode == 39) {
+            hero.right();
+        }
+    }
+
+    function player() {
+        this.x = 1;
+        this.y = 9;
+        this.color = '#A160EB';
+
+        this.margin = function (x, y) {
+            let collision = false;
+            if (scene[y][x] == 1) { collision = true; }
+            if (scene[y][x] == 0) { collision = true; }
+            return (collision);
+        }
+
+        this.up = function () {
+            if (this.margin(this.x, this.y - 1) == false)
+                this.y--;
+            this.logic();
+        }
+
+        this.down = function () {
+            if (this.margin(this.x, this.y + 1) == false)
+                this.y++;
+            this.logic();
+        }
+
+        this.left = function () {
+            if (this.margin(this.x - 1, this.y) == false)
+                this.x--;
+            this.logic();
+        }
+
+        this.right = function () {
+            if (this.margin(this.x + 1, this.y) == false)
+                this.x++;
+            this.logic();
+        }
+
+        this.logic = function () {
+            let ver = scene[this.y][this.x];
+            if (ver == 4) {
+                this.myPrecious = true;
+                scene[this.y][this.x] = 2;
+                alert('¡Has conseguido el tesoro!');
+            }
+            if (ver == 3 && this.myPrecious !== true) {
+                alert('Necesitas el tesoro para ganar');
+                
+            } 
+            if (ver == 3 && this.myPrecious == true) {
+                alert('¡Has ganado!');
+                
+            }
+        }
+
+        this.draw = function () {
+            let img = new Image();
+            img.src = 'img/gatito.png';
+            ctx.drawImage(img, this.x * widthF - 50, this.y * heightF - 45);
+
+            //ctx.fillStyle = this.color;
+            //ctx.fillRect(this.x * widthF, this.y * heightF, widthF, heightF);
+        }
+
+    }
+
+    function Enemy(x, y) {
         this.x = x;
         this.y = y;
-        this.mov = true;
+        this.shift = true;
 
-        this.dibuja = function () {
+        this.draw = function () {
             ctx.fillStyle = '#858175';
             ctx.fillRect(this.x, this.y, 30, 30);
         }
 
-        this.mueveLado = function (velocidad) {
-            if (this.mov == true) {
+        this.moveSide = function (speed) {
+            if (this.shift == true) {
                 if (this.x < 540) {
-                    this.x += velocidad;
+                    this.x += speed;
                 } else {
-                    this.mov = false;
+                    this.shift = false;
                 }
             } else {
                 if (this.x > 20)
-                    this.x -= velocidad;
+                    this.x -= speed;
                 else {
-                    this.mov = true;
+                    this.shift = true;
                 }
             }
         }
 
-        this.mueveAbajo = function (velocidad) {
-            if (this.mov == true) {
+        this.moveDown = function (speed) {
+            if (this.shift == true) {
                 if (this.y < 100) {
-                    this.y += velocidad;
+                    this.y += speed;
                 } else {
-                    this.mov = false;
+                    this.shift = false;
                 }
             } else {
                 if (this.y > 10)
-                    this.y -= velocidad;
+                    this.y -= speed;
                 else {
-                    this.mov = true;
+                    this.shift = true;
                 }
             }
         }
     }
 
-    function Jugador(x, y, r) {
-        this.x = x || 0;
-        this.y = y || 0;
-        this.r = r || 0;
-        this.up = false;
-        this.down = false;
-        this.left = false;
-        this.right = false;
-
-        this.movimiento = function () {
-            
-            if (this.up) { this.y -= MOVE_SPEED;}                      
-            if (this.down) { this.y += MOVE_SPEED;}        
-            if (this.left) { this.x -= MOVE_SPEED; }                       
-            if (this.right) { this.x += MOVE_SPEED; }
-            
-            
-            if (this.x - this.r < 0.0) {
-                this.x = this.r;
-            }
-            if (this.x + this.r > WIDTH) {
-                this.x = WIDTH - this.r;
-            }
-            if (this.y - this.r < 0.0) {
-                this.y = this.r;
-            }
-            if (this.y + this.r > HEIGHT) {
-                this.y = HEIGHT - this.r;
-            }
-        };
-
-        this.dibuja = function () {
-            let img = new Image();
-            img.src = 'img/gatito.png';
-            ctx.drawImage(img, this.x - 50, this.y - 45);
-        };
-
-      /*  this.margen = function (x, y) {
-            let colision = false;
-            if (escenario[y][x] == 0) {
-                colision = true;
-            }
-            return (colision);
-        } */
+    function deleteCanvas() {
+        canvas.width = 750;
+        canvas.height = 550;
     }
 
-    let per1 = new Enemigo(60, 150);
-    let per2 = new Enemigo(50, 200);
-    let per3 = new Enemigo(70, 270);
-    let per4 = new Enemigo(30, 10);
-    let per5 = new Enemigo(500, 310);
-    let prota = new Jugador(75, 460, 45);
-
-    onkeydown = function (e) {
-        switch (e.key.toLowerCase()) {
-            case "w": prota.up = true; break;
-            case "s": prota.down = true; break;
-            case "a": prota.left = true; break;
-            case "d": prota.right = true; break;
-        }
-    }
-
-    onkeyup = function (e) {
-        switch (e.key.toLowerCase()) {
-            case "w": prota.up = false; break;
-            case "s": prota.down = false; break;
-            case "a": prota.left = false; break;
-            case "d": prota.right = false; break;
-        }
-    }
-
-    function principal() {
-        canvas.width = WIDTH;
-        canvas.height = HEIGHT;
-        dibujaEscenario();
-
-        per1.dibuja();
-        per2.dibuja();
-        per3.dibuja();
-        per4.dibuja();
-        per5.dibuja();
-        prota.movimiento();
-        prota.dibuja();
-
-        per1.mueveLado(1);
-        per2.mueveLado(2);
-        per3.mueveLado(3);
-        per4.mueveAbajo(1);
-        per5.mueveLado(3);
-    }
-    
-    
 }();
-
-
