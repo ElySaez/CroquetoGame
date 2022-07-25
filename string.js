@@ -34,7 +34,7 @@ void function () {
     const FPS = 50;
 
     onload = function () {
-        canvas = document.getElementById('canvas');
+        canvas = document.getElementById('canvas');        
         ctx = canvas.getContext('2d');
         setInterval(function () {
             main();
@@ -47,6 +47,11 @@ void function () {
         }
         );
         rhythm.play();
+
+        let titulo = document.getElementById('title');
+        console.log(titulo.innerText);
+        titulo.innerText='Prototipo de juego';
+        console.log(titulo.innerText);
     }
 
     let p1 = new Enemy(60, 150);
