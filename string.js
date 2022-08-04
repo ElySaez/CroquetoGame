@@ -71,28 +71,38 @@ void function () {
 
     function verStorage() {
         let st = localStorage.getItem("jugador");
-        
+
         if (st == null) {
             let saludo = prompt("¿Cuál es tu nombre?");
             arr = {
                 nombre: saludo,
                 vida: 100
             };
-            localStorage.setItem("jugador", JSON.stringify(arr));
+            localStorage.setItem("jugador", JSON.stringify(arr)); 
+            console.log(...arr.nombre);           
+            verLife();
         }
+        
+
     }
 
-    function loadPlayerName(){
+    function verLife(){
+        let { nombre, vida } = arr;
+            console.log(`Hola ${nombre} tienes ${vida} de vida`);
+    }
+
+    function loadPlayerName() {
         let st = localStorage.getItem("jugador");
         let obj = JSON.parse(st);
         let promVal = document.getElementById("hi");
-        
-        if(obj.nombre == ''){
-            promVal.textContent = "invitado"
+
+        if (obj.nombre == '') {
+            promVal.textContent = "invitado";
+            
         } else {
             promVal.textContent = obj.nombre;
-        }      
-    
+        }
+
     }
 
     function main() {
@@ -123,6 +133,7 @@ void function () {
     }
 
     onkeydown = function (key) {
+
         if (key.keyCode == 38) {
             hero.up();
         }
@@ -213,44 +224,19 @@ void function () {
 
         }
 
-        /* this.verCol = function (x, y) {
-            let paw = false;
-
-            if( scene[y][x]==0){
-                paw =true
-            }
-            return paw;
-        }
- */
         this.moveSide = function (speed) {
             if (this.shift == true) {
-                if (this.x < 540) {
-                    this.x += speed;
-                } else {
-                    this.shift = false;
-                }
+                this.x < 540 ? this.x += speed : this.shift = false;
             } else {
-                if (this.x > 20)
-                    this.x -= speed;
-                else {
-                    this.shift = true;
-                }
+                this.x > 20 ? this.x -= speed : this.shift = true;
             }
         }
 
         this.moveDown = function (speed) {
             if (this.shift == true) {
-                if (this.y < 100) {
-                    this.y += speed;
-                } else {
-                    this.shift = false;
-                }
+                this.y < 100 ? this.y += speed : this.shift = false;
             } else {
-                if (this.y > 10)
-                    this.y -= speed;
-                else {
-                    this.shift = true;
-                }
+                this.y > 10 ? this.y -= speed : this.shift = true;
             }
         }
 
