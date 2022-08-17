@@ -33,6 +33,16 @@ void function () {
     ]
 
     const FPS = 50;
+    
+    const API_URL= 'https://api.chucknorris.io/jokes/random';
+
+    fetch(API_URL)
+    .then((resp) => resp.json())
+    .then((data) => {
+        console.log(data.value)
+        let promVal = document.getElementById("api");
+        promVal.textContent = data.value;
+    })
 
 
 
@@ -58,7 +68,7 @@ void function () {
 
         let titulo = document.getElementById('title');
         console.log(titulo.innerText);
-        titulo.innerText = 'Prototipo de juego';
+        titulo.innerText = 'Croqueto Game';
         console.log(titulo.innerText);
     }
 
