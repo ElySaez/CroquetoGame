@@ -1,5 +1,6 @@
  /*  Mini juego de gatito que intenta salir de la alcantarilla, los controles son las flechas 
- arriba, abajo, izquierda y derecha, El localStorage se almacena sólo si no se ganado la partida */
+ arriba, abajo, izquierda y derecha y para cambiar de imagen se debe hacer click encima de la imagen,
+  El localStorage se almacena sólo si no se ganado la partida */
  
  void function () {
 
