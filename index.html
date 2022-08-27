@@ -2,26 +2,57 @@
 
 <head>
     <title id="title">Soy un juego</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style/style.css">
     <link rel="icon" href="./img/patita.png">
 </head>
 
 <body>
-    <script src="howler.core.js"></script>
-    <div class="welcome">
+    <div id="fase-1" onclick="fase1()">
+        <img src="img/1.png" alt="">
+      </div>
+    
+      <div id="fase-2" onclick="fase2()">
+        <img src="img/2.png" alt="">
+      </div>
+    
+      <div id="fase-3">
+        <div class="welcome">
+          <p>Hola </p>
+          <p id="hi"></p>
+        </div>
+    
+        <canvas id='canvas'></canvas>
+    
+        <div class="score">
+          <p>Puntaje: </p>
+          <p id="points"></p>
+        </div>
+    
+        <div>
+          <p id="remember"> What would the master say?</p>
+          <img id="chuck" src="./img/chuck.png" alt="">
+          <div id="api"></div>
+        </div>
+      </div>
+    
+      <div id="fase-4">
+        <img src="img/end.png" alt="">
+      </div>
+    
+      <script src="./js/howler.core.js"></script>
+      <script src='./js/lvl.js'></script>
+    <script>
 
-        <p>Hola </p>
-        <p id="hi"></p>
-    </div>
-    <canvas id="canvas">
-
-    </canvas>
-    <p id="remember"> What would the master say?</p>
-    <div>
-        <img id="chuck" src="./img/chuck.png" alt="">
-        <div id="api"></div>
-    </div>
-    <script src="./string.js"></script>
+        function fase1() {
+          document.getElementById("fase-1").style.display = "none";
+          document.getElementById("fase-2").style.display = "inherit";
+        }
+  
+        function fase2() {
+          document.getElementById("fase-2").style.display = "none";
+          document.getElementById("fase-3").style.display = "inherit";
+        }
+    </script>
 </body>
 
 </html>

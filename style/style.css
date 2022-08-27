@@ -51,3 +51,12 @@
     'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
 }
+
+.score, .score p{
+    display: inline-block;
+}
+
+
+#fase-2, #fase-3, #fase-4{
+    display: none;
+}
