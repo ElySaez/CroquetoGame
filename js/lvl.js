@@ -102,12 +102,12 @@
         imagenAntorcha = new torch(0, 0);
         imagenAntorcha2 = new torch(14, 0);
 
-    /*     enemigo.push(new enemy(2, 1));
+        enemigo.push(new enemy(2, 1));
         enemigo.push(new enemy(8, 1));
         enemigo.push(new enemy(6, 6));
         enemigo.push(new enemy(11, 8));
         enemigo.push(new enemy(5, 2));
-        enemigo.push(new enemy(3, 7)); */
+        enemigo.push(new enemy(3, 7)); 
 
         onkeydown = function (key) {
 
