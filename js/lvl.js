@@ -413,7 +413,7 @@
                 if (this.llave == true && points >=40)
                     this.victoria();
                 else {
-                    console.log('No tienes la llave, no puedes pasar!');
+                    alert('Creo que he olvidado llevar algo');
                 }
             }
 
