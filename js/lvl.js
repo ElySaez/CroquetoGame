@@ -299,6 +299,7 @@
         this.colisionEnemigo = function (x, y) {
             if (this.x == x && this.y == y) {
                 this.muerte();
+                points = 0;
             }
         }
 

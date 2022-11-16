@@ -22,11 +22,12 @@
 #chuck {
     display: inline-block;
     position: absolute;
-    width: 190px;
+    width: 170px;
     top: 90px;
-    left: 750px;
+    left: 950px;
 
 }
+
 
 #api {
     display: inline-block;
